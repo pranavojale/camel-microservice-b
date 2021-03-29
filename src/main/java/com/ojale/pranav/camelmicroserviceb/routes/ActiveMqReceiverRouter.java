@@ -8,7 +8,7 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class ActiveMqReceiverRouter extends RouteBuilder {
 
     @Autowired
@@ -24,12 +24,16 @@ public class ActiveMqReceiverRouter extends RouteBuilder {
         // CurrencyExchange
         // { "id": 1000, "from": "USD", "to": "INR", "conversionMultiple": 70 }
 
-        from("rabbitmq://localhost:5672/pranavoj?queue=my-rabbitmq-queue&autoDelete=false")
+        /*from("rabbitmq://localhost:5672/pranavoj?queue=my-rabbitmq-queue&autoDelete=false")
                 .unmarshal()
                 .json(JsonLibrary.Jackson, CurrencyExchange.class)
                 .bean(myCurrencyExchangeProcessor)
                 .bean(myCurrencyExchangeTransformer)
                 .log("${body}")
                 .to("log:received-message-from-activemq");
+         */
+
+        from("rabbitmq://localhost:5672/pranavoj?queue=my-rabbitmq-queue&autoDelete=false")
+                .to("log:received-message-from-rabbitmq");
     }
 }
